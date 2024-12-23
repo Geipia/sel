@@ -59,7 +59,7 @@
         <div id="loading-bar-container">
             <div id="loading-bar"></div>
         </div>
-        <img id="supercell-logo" src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Supercell_logo.png" alt="Supercell Logo">
+        <img id="supercell-logo" src="supercell-logo.png" alt="Supercell Logo">
     </div>
 
     <script>
@@ -73,14 +73,14 @@
 
             let progress = 0;
             const interval = setInterval(() => {
+                progress += 2;
+                loadingBar.style.width = progress + '%';
+
                 if (progress >= 100) {
                     clearInterval(interval);
                     logo.style.display = 'block';
-                } else {
-                    progress += 2;
-                    loadingBar.style.width = progress + '%';
                 }
-            }, 50);
+            }, 100);
         }
     </script>
 </body>
