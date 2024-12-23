@@ -7,80 +7,82 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
             text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #camera {
+            margin-top: 20px;
         }
         #loading-bar {
-            width: 0;
-            height: 20px;
-            background-color: #4caf50;
-            margin: 20px auto;
-            border-radius: 10px;
-        }
-        #loading-bar-container {
-            width: 80%;
-            height: 20px;
+            width: 100%;
             background-color: #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px auto;
+            margin-top: 20px;
+            display: none;
+            position: relative;
+        }
+        #loading-progress {
+            height: 30px;
+            width: 0;
+            background-color: #4caf50;
+            animation: load 3s linear;
+        }
+        @keyframes load {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
         }
         #supercell-logo {
             display: none;
-            width: 150px;
-            margin: 20px auto;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Analyse de Sel</h1>
-        <p>Scannez le code-barres de votre paquet de sel !</p>
-        <button onclick="simulateScan()">Prendre une photo</button>
-        <div id="loading-bar-container">
-            <div id="loading-bar"></div>
-        </div>
-        <img id="supercell-logo" src="supercell-logo.png" alt="Supercell Logo">
+    <h1>Analyse de votre sel</h1>
+    <video id="camera" width="300" height="200" autoplay></video>
+    <br>
+    <button onclick="analyzeSalt()">Analyser le code-barres</button>
+
+    <div id="loading-bar">
+        <div id="loading-progress"></div>
     </div>
 
+    <img id="supercell-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4b/Supercell_logo.png/250px-Supercell_logo.png" alt="Supercell Logo">
+
     <script>
-        function simulateScan() {
-            const loadingBar = document.getElementById('loading-bar');
-            const logo = document.getElementById('supercell-logo');
+        const video = document.getElementById('camera');
 
-            // Réinitialiser la barre de chargement et le logo
-            loadingBar.style.width = '0';
-            logo.style.display = 'none';
+        // Accès à la caméra
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Erreur d'accès à la caméra :", err);
+                alert("Impossible d'accéder à la caméra.");
+            });
 
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 2;
-                loadingBar.style.width = progress + '%';
+        function analyzeSalt() {
+            // Simuler le processus d'analyse
+            document.getElementById('loading-bar').style.display = 'block';
+            document.getElementById('loading-progress').style.width = '0';
 
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    logo.style.display = 'block';
-                }
-            }, 100);
+            setTimeout(() => {
+                document.getElementById('loading-progress').style.width = '100%';
+            }, 50);
+
+            setTimeout(() => {
+                document.getElementById('loading-bar').style.display = 'none';
+                document.getElementById('supercell-logo').style.display = 'block';
+            }, 3000);
         }
     </script>
 </body>
