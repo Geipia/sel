@@ -29,15 +29,6 @@
             height: 30px;
             width: 0;
             background-color: #4caf50;
-            animation: load 3s linear;
-        }
-        @keyframes load {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
         }
         #supercell-logo {
             display: none;
@@ -71,19 +62,26 @@
             });
 
         function analyzeSalt() {
-            // Simuler le processus d'analyse
-            document.getElementById('loading-bar').style.display = 'block';
-            document.getElementById('loading-progress').style.width = '0';
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingProgress = document.getElementById('loading-progress');
+            const supercellLogo = document.getElementById('supercell-logo');
 
-            setTimeout(() => {
-                document.getElementById('loading-progress').style.width = '100%';
-            }, 50);
+            loadingBar.style.display = 'block';
+            loadingProgress.style.width = '0';
 
-            setTimeout(() => {
-                document.getElementById('loading-bar').style.display = 'none';
-                document.getElementById('supercell-logo').style.display = 'block';
-            }, 3000);
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    loadingBar.style.display = 'none';
+                    supercellLogo.style.display = 'block';
+                } else {
+                    progress++;
+                    loadingProgress.style.width = progress + '%';
+                }
+            }, 30); // Augmente la progression toutes les 30ms
         }
     </script>
 </body>
 </html>
+
